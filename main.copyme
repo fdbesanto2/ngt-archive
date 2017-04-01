@@ -9,3 +9,4 @@ secret_key: 'changemeto a secret'
 
 ldap_bind_password: <change to ldap bind password >
 ldap_bind_dn: cn=<user name>,cn=users,dc=< enter DC here>,dc=local
+ldap_search: CN=Users,DC=< enter DC here>,DC=local
