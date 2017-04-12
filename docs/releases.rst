@@ -2,6 +2,23 @@
 Releases
 ========
 
+v1.2.0
+======
+Bug fixes, UI Enhancments
+
+- Approved dataset list not showing status values **bug,critical** (`#305  <https://github.com/NGEET/ngt-archive/issues/305>`_) 
+- Fix link in data upload tooltip (`#278 <https://github.com/NGEET/ngt-archive/issues/278>`_) 
+- DatasetContact - new collaborator error message incorrect **bug** (`#243 <https://github.com/NGEET/ngt-archive/issues/243>`_) 
+- data policy link opens in same window enhancement (`#269 <https://github.com/NGEET/ngt-archive/issues/269>`_) 
+- Create UI metadata infrastructure for dynamic layouts **feature** (`#52 <https://github.com/NGEET/ngt-archive/issues/52>`_) 
+- Workflow for downloading a dataset enhancement feature **important** (`#85 <https://github.com/NGEET/ngt-archive/issues/85>`_) 
+- Warn users when they submit a dataset with a title that already exists enhancement **important** (`#248 <https://github.com/NGEET/ngt-archive/issues/248>`_) 
+- Help link fixes (`#290 <https://github.com/NGEET/ngt-archive/issues/290>`_) 
+- "Edit Draft Datasets" to "Edit Datasets" enhancement **question** (`#299 <https://github.com/NGEET/ngt-archive/issues/299>`_) 
+- Add Person: Adding a new contact to two fields does not work enhancement **important** (`#205 <https://github.com/NGEET/ngt-archive/issues/205>`_) 
+- Creating new person objects during dataset editing/creation only provides first and last name enhancement **important,question** (`#169 <https://github.com/NGEET/ngt-archive/issues/169>`_)  
+- Convert View Dataset Listing to a table enhancement **important** (`#283 <https://github.com/NGEET/ngt-archive/issues/283>`_) 
+
 v1.1.2
 ======
 Critical Bug fixes
