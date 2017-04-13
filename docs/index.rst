@@ -15,4 +15,5 @@ Contents:
    quickstart
    releases
    contact
+   license
 
