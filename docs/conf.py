@@ -56,7 +56,7 @@ master_doc = 'index'
 
 # General information about the project.
 project = u'NGT Archive Service'
-copyright = u'2016, Charu Varadharajan, Valerie Hendrix, Megha Sandesh'
+copyright = u'NGEE Tropics Archive (NGT Archive) Copyright (c) 2017, The Regents of the University of California, through Lawrence Berkeley National Laboratory (subject to receipt of any required approvals from the U.S. Dept. of Energy).  All rights reserved.'
 
 # The version info for the project you're documenting, acts as replacement for
 # |version| and |release|, also used in various other places throughout the

@@ -1,5 +1,5 @@
 ====================
-Licenses
+License
 ====================
 
 .. include:: ../LICENSE.md
