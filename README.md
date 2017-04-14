@@ -1,7 +1,7 @@
 # NGEE Tropics Archive Service
 
 NGEE Tropics Archive Service is a Django application.  The NGEE-Tropics archive 
-service sits in the middle of the *NGEE Tropics data workflow*:q
+service sits in the middle of the *NGEE Tropics data workflow*
 
 * Place to upload datasets and metadata.
 * Datasets should consist of related data collections, not individual files (e.g. Sapflow collected at Manaus)
