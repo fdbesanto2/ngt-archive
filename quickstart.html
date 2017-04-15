@@ -1,0 +1,277 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Quickstart &#8212; NGT Archive Service v1.2.0 documentation</title>
+    
+    <link rel="stylesheet" href="_static/nature.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     'v1.2.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Releases" href="releases.html" />
+    <link rel="prev" title="NGEE Tropics Archive Service" href="intro.html" /> 
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="releases.html" title="Releases"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="intro.html" title="NGEE Tropics Archive Service"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">NGT Archive Service v1.2.0 documentation</a> &#187;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="quickstart">
+<h1>Quickstart<a class="headerlink" href="#quickstart" title="Permalink to this headline">¶</a></h1>
+<p>NGEE Tropics Archive is a  Django app that acts as a data archive for the NGEE Tropics project.
+Use these instructions as a starting point for deploying the application. Please refer to Django
+documentation at <a class="reference external" href="https://docs.djangoproject.com">https://docs.djangoproject.com</a> for deployment configuration options.</p>
+<div class="section" id="get-the-source-code">
+<h2>Get the Source code<a class="headerlink" href="#get-the-source-code" title="Permalink to this headline">¶</a></h2>
+<p>First the source code needs to be checked out:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">git</span> <span class="n">clone</span> <span class="n">git</span><span class="nd">@github</span><span class="o">.</span><span class="n">com</span><span class="p">:</span><span class="n">NGEET</span><span class="o">/</span><span class="n">ngt</span><span class="o">-</span><span class="n">archive</span><span class="o">.</span><span class="n">git</span>
+<span class="n">cd</span> <span class="n">ngt</span><span class="o">-</span><span class="n">archive</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="checkout-the-tagged-version">
+<h2>Checkout the Tagged Version<a class="headerlink" href="#checkout-the-tagged-version" title="Permalink to this headline">¶</a></h2>
+<p>Get the desired version:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">git</span> <span class="n">checkout</span> <span class="o">&lt;</span><span class="n">version_number</span><span class="o">&gt;</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="setup-the-app">
+<h2>Setup the App<a class="headerlink" href="#setup-the-app" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-default"><div class="highlight"><pre><span></span>$ virtualenv -p `which python3` .
+$ source bin/activate
+(ngt-archive)$ python setup.py install
+(ngt-archive)$ pip install psycopg2 (pg_config needs to be available)
+</pre></div>
+</div>
+</div>
+<div class="section" id="prepare-settings">
+<h2>Prepare Settings<a class="headerlink" href="#prepare-settings" title="Permalink to this headline">¶</a></h2>
+<p>Now you need to prepare your application settings:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span>$ touch ngeet_archive_settings.py
+</pre></div>
+</div>
+<div class="section" id="general-settings">
+<h3>General Settings<a class="headerlink" href="#general-settings" title="Permalink to this headline">¶</a></h3>
+<p>Add the following to <code class="docutils literal"><span class="pre">ngeet_archive_settings.py</span></code> replacing the items in curly braces with your values.
+These are the main settings that will change depending on deployment environment
+(e.g. production, development, test):</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">ngt_archive.settings</span> <span class="k">import</span> <span class="o">*</span>
+
+<span class="n">DEBUG</span> <span class="o">=</span> <span class="kc">True</span> <span class="c1"># Change to False for production deployments</span>
+
+<span class="c1"># Uncomment for Production (Add allowable hostnames)</span>
+<span class="c1">#ALLOWED_HOSTS = []</span>
+
+<span class="c1"># don&#39;t want emails while developing</span>
+<span class="c1"># Production - added admins to email for errors</span>
+<span class="n">ADMINS</span> <span class="o">=</span> <span class="p">()</span>
+<span class="n">MANAGERS</span> <span class="o">=</span> <span class="n">ADMINS</span>
+
+<span class="c1"># Refer to the Django documentation for a list of</span>
+<span class="c1"># available email backends</span>
+<span class="n">EMAIL_BACKEND</span> <span class="o">=</span> <span class="s1">&#39;django.core.mail.backends.locmem.EmailBackend&#39;</span>
+<span class="n">BASE_DIR</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">dirname</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">dirname</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span><span class="vm">__file__</span><span class="p">)))</span>
+
+<span class="n">SECRET_KEY</span> <span class="o">=</span> <span class="p">{{</span> <span class="n">random</span> <span class="n">string</span> <span class="k">for</span> <span class="n">secret</span> <span class="n">key</span> <span class="p">}}</span>
+
+<span class="c1"># Static files (CSS, JavaScript, Images)</span>
+<span class="c1"># https://docs.djangoproject.com/en/1.6/howto/static-files/</span>
+
+<span class="n">STATIC_URL</span> <span class="o">=</span> <span class="s1">&#39;/static/&#39;</span>
+<span class="n">STATICFILES_DIRS</span> <span class="o">=</span> <span class="p">(</span>
+
+<span class="p">)</span>
+<span class="c1"># Where the static files are physcially located</span>
+<span class="c1">#STATIC_ROOT =</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="archive-api-settings">
+<h3>Archive API Settings<a class="headerlink" href="#archive-api-settings" title="Permalink to this headline">¶</a></h3>
+<p>Below are the archive api settings.  Customize these for different deployments (e.g production,
+development, test):</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">ARCHIVE_API</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s1">&#39;DATASET_ARCHIVE_ROOT&#39;</span><span class="p">:</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">BASE_DIR</span><span class="p">,</span> <span class="s2">&quot;archives/&quot;</span><span class="p">),</span>
+    <span class="s1">&#39;DATASET_ARCHIVE_URL&#39;</span><span class="p">:</span> <span class="s1">&#39;/archives/&#39;</span><span class="p">,</span>  <span class="c1"># not used</span>
+    <span class="s1">&#39;DATASET_ADMIN_MAX_UPLOAD_SIZE&#39;</span><span class="p">:</span> <span class="mi">2147483648</span><span class="p">,</span> <span class="c1"># in bytes</span>
+    <span class="s1">&#39;DATASET_USER_MAX_UPLOAD_SIZE&#39;</span><span class="p">:</span> <span class="mi">1073741824</span><span class="p">,</span> <span class="c1"># in bytes</span>
+    <span class="s1">&#39;EMAIL_NGEET_TEAM&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;ngeet-team@testserver&#39;</span><span class="p">],</span>
+    <span class="s1">&#39;EMAIL_SUBJECT_PREFIX&#39;</span> <span class="p">:</span> <span class="s1">&#39;[ngt-archive-test]&#39;</span>
+
+<span class="p">}</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="database-settings">
+<h3>Database Settings<a class="headerlink" href="#database-settings" title="Permalink to this headline">¶</a></h3>
+<p>By default NGEE Tropics Archive uses a sqlite database.  For a postgres database, first install the Postgres
+python client:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span>(ngt-archive) $ pip install psycopg2
+</pre></div>
+</div>
+<p>Add the following to Postgres DB connection details to <code class="docutils literal"><span class="pre">ngeet_archive_settings.py</span></code>. Replace the
+items in curly braces with your values.:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">DATABASES</span> <span class="o">=</span> <span class="p">{</span>
+
+<span class="s1">&#39;default&#39;</span><span class="p">:</span> <span class="p">{</span>
+    <span class="s1">&#39;ENGINE&#39;</span><span class="p">:</span> <span class="s1">&#39;django.db.backends.postgresql_psycopg2&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;NAME&#39;</span><span class="p">:</span> <span class="s1">&#39;geo&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;USER&#39;</span><span class="p">:</span> <span class="s1">&#39;{{ db_user }} &#39;</span><span class="p">,</span>
+    <span class="s1">&#39;PASSWORD&#39;</span><span class="p">:</span> <span class="s1">&#39;{{ db_password }}&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;HOST&#39;</span><span class="p">:</span> <span class="s1">&#39;localhost&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;PORT&#39;</span><span class="p">:</span> <span class="s1">&#39;&#39;</span><span class="p">,</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="migrate-the-app">
+<h2>Migrate the App<a class="headerlink" href="#migrate-the-app" title="Permalink to this headline">¶</a></h2>
+<p>Run <code class="docutils literal"><span class="pre">python</span> <span class="pre">manage.py</span> <span class="pre">migrate</span></code> to create the JAEA Geo models. This will create the materialized views and load the app&#8217;s
+plugins:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span>(ngt-archive)$ DJANGO_SETTINGS_MODULE=ngeet_archive_settings ./manage.py migrate
+</pre></div>
+</div>
+</div>
+<div class="section" id="static-files">
+<h2>Static Files<a class="headerlink" href="#static-files" title="Permalink to this headline">¶</a></h2>
+<p>Run <code class="docutils literal"><span class="pre">python</span> <span class="pre">manage.py</span> <span class="pre">collectstatic</span></code> to deploy the static files to the production server.  Note that the pages will be deployed
+to STATIC_ROOT. If no value is supplied the static directory will be created in the current directory.:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span>(ngt-archive)$ DJANGO_SETTINGS_MODULE=ngt-archive_settings ./manage.py collectstatic
+</pre></div>
+</div>
+</div>
+<div class="section" id="create-a-superuser">
+<h2>Create a Superuser<a class="headerlink" href="#create-a-superuser" title="Permalink to this headline">¶</a></h2>
+<p>In order to access your development website, you need to create a superuser:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span>(ngt-archive)$ DJANGO_SETTINGS_MODULE=ngeet_archive_settings ./manage.py createsuperuser
+</pre></div>
+</div>
+<p>Now you may start your development server and login.</p>
+</div>
+<div class="section" id="run-the-server">
+<h2>Run the Server<a class="headerlink" href="#run-the-server" title="Permalink to this headline">¶</a></h2>
+<p>Start the development server and visit <a class="reference external" href="http://127.0.0.1:8000/admin/">http://127.0.0.1:8000/admin/</a>
+to manage a JAEA Geo  users</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span>(ngt-archive)$ ./manage.py runserver
+</pre></div>
+</div>
+<p>Visit <a class="reference external" href="http://127.0.0.1:8000/api/v1">http://127.0.0.1:8000/api/v1</a> to to view the REST api.</p>
+<p>For deployment options see the Django documentation at <a class="reference external" href="https://docs.djangoproject.com">https://docs.djangoproject.com</a></p>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="index.html">
+              <img class="logo" src="_static/NGEE-Tropics-OFFICIAL-Logo-no-text-transparent-background.png" alt="Logo"/>
+            </a></p>
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Quickstart</a><ul>
+<li><a class="reference internal" href="#get-the-source-code">Get the Source code</a></li>
+<li><a class="reference internal" href="#checkout-the-tagged-version">Checkout the Tagged Version</a></li>
+<li><a class="reference internal" href="#setup-the-app">Setup the App</a></li>
+<li><a class="reference internal" href="#prepare-settings">Prepare Settings</a><ul>
+<li><a class="reference internal" href="#general-settings">General Settings</a></li>
+<li><a class="reference internal" href="#archive-api-settings">Archive API Settings</a></li>
+<li><a class="reference internal" href="#database-settings">Database Settings</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#migrate-the-app">Migrate the App</a></li>
+<li><a class="reference internal" href="#static-files">Static Files</a></li>
+<li><a class="reference internal" href="#create-a-superuser">Create a Superuser</a></li>
+<li><a class="reference internal" href="#run-the-server">Run the Server</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="intro.html"
+                        title="previous chapter">NGEE Tropics Archive Service</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="releases.html"
+                        title="next chapter">Releases</a></p>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/quickstart.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="releases.html" title="Releases"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="intro.html" title="NGEE Tropics Archive Service"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">NGT Archive Service v1.2.0 documentation</a> &#187;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright NGEE Tropics Archive (NGT Archive) Copyright (c) 2017, The Regents of the University of California, through Lawrence Berkeley National Laboratory (subject to receipt of any required approvals from the U.S. Dept. of Energy).  All rights reserved..
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.5.5.
+    </div>
+  </body>
+</html>
