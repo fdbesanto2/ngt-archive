@@ -29,7 +29,7 @@ development and testing purposes. See deployment for notes on how to deploy the 
 
 ### Prerequisities
 
-WFSFA is a Django application which requires:
+NGEE Tropics Archive is a Django application which requires:
 
 * Python (>= 3.4, 3.5)
 * Django (> 1.8)
@@ -116,7 +116,7 @@ To delete your VM:
 
 #### Local Machine Development
 
-Install WFSFA Broker Service for development
+Install NGEE Tropics Archive Service for development
 
 Clone the project from Github
 
