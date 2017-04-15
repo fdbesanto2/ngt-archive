@@ -19,10 +19,12 @@ except Exception as e:
     # We will used the existing version.py file
     pass
 
-with open(version_py) as f:
-    code = compile(f.read(), version_py, 'exec')
-    exec(code)
-
+try:
+    with open(version_py) as f:
+        code = compile(f.read(), version_py, 'exec')
+        exec(code)
+except:
+    __release__=None
 
 packages = find_packages(exclude=["*.tests",])
 
