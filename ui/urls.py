@@ -1,6 +1,8 @@
 from django.conf.urls import url
-from django.views.generic.base import TemplateView
+from django.contrib.auth.decorators import login_required
+
+from ui.views import IndexView
 
 urlpatterns = [
-    url(r'^$', TemplateView.as_view(template_name='ui/index.html'), name="home"),
+    url(r'^$', login_required(IndexView.as_view()), name="home"),
 ]

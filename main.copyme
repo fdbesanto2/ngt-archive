@@ -5,6 +5,7 @@ db_host: localhost
 db_port: ''
 
 secret_key: 'changemeto a secret'
+google_maps_key: 'add google maps key here'
 
 
 ldap_bind_password: <change to ldap bind password >
