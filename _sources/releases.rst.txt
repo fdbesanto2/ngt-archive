@@ -2,6 +2,13 @@
 Releases
 ========
 
+v1.2.1
+======
+
+Bug fix release to remove hard coded google maps api key
+
+- Google Maps api key needs to be tied to and NGEE Tropics account **bug,critical** (`#307 <https://github.com/NGEET/ngt-archive/issues/307>`_)
+
 v1.2.0
 ======
 Bug fixes, UI Enhancments
