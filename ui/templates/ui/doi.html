@@ -1,0 +1,194 @@
+<!DOCTYPE html><html style="width:1050px text-align:center"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <style>pre {
+		display: block;
+		font-family: "Times New Roman", Times, serif;
+		white-space: pre;
+		margin: 1em 0;
+		width:1050px;
+		word-wrap: break-word;
+	  }
+	  .bod {
+		width: 1100px;
+		background:#F8F8F8;
+	  }
+	  .tab {
+	  	padding-left:5em;
+	  }
+	  .graybox { 
+	  	background:#eeeeee;
+	  }
+
+	  .container {
+	  	width: auto;
+	  }
+
+	  /* body {
+		background-image: url("http://ngee-tropics.ornl.gov/data-upload/images/TES_bg.png");
+	  	background-color: #E6E7EB;
+	  } */
+	 /* body {
+        background-image: url("http://ngee-tropics.ornl.gov/data-upload/images/TES_bg_full.png");
+        background-attachment: fixed;
+      }*/
+
+	  .pagebox {   /* standard page container */
+	  	clear: both;
+	  	margin:0 auto 3rem auto;
+	  	width:950px;
+	  	height:auto;
+	  	background-color: #FFFFFF;
+	  	box-shadow: 0px 0px 25px #555;
+	  	padding-bottom: 10px;
+	  }
+
+	  div.ma {
+	  	padding-left: 5px;
+	  	padding-right:5px;
+	  }
+
+	  div.hbp {
+	    padding-right: 50px;
+	    position: relative;
+	  }</style>
+  </head>
+  <body data-feedly-mini="yes">
+    <div class="container">
+      <div class="pagebox">
+        <div class="hpb" style="float: right;">
+          <img width="1100" src="/static/img/tropics_logo.jpg">
+        </div>
+        <div class="ma">
+          <h1 align="center">
+            
+            {{dataset.name}}
+
+          </h1>
+          <fieldset class="graybox">
+            <p>
+              <b>Author(s):</b>
+                {{ authors }}
+              </p>
+          </fieldset>
+          <br>
+          <p>
+            </p><h2>Dataset Information</h2>
+          <p></p>
+          <fieldset class="graybox">
+            <p>
+              <b>Site ID:</b>
+                {{ site_ids }}
+              
+            </p>
+            <p>
+              <b>Site Name:</b>
+
+
+             {{ sites }}
+              
+            </p>
+           
+            <p>
+              <b>Variables:</b>
+              {{  variables }}
+            </p>
+            <p>
+              <b>Date Range:</b>
+              
+              {{dataset.start_date}}
+              
+              -
+              
+              {{dataset.end_date}}
+              
+            </p>
+            <p>
+              <b>Description:</b>
+
+                {{dataset.description}}
+
+            </p>
+            <p>
+              <b>QA/QC:</b>
+              
+              {{dataset.get_qaqc_status_display}}
+              
+              </p><p>
+                <b>QA/QC Method:</b>
+                
+                {{dataset.qaqc_method_description}}
+                
+              </p>
+            <p></p>
+            <p>
+              <b>Access Level:</b>
+              
+              {{dataset.get_access_level_display}}
+              
+            </p>
+            <p>
+              <b>Originating Institution(s):</b>
+              
+              Oak Ridge National Laboratory
+              
+            </p>
+            <p>
+              <b>Sponsor Organization(s):</b>
+              
+              {{dataset.funding_organizations}}
+              
+            </p>
+            <p>
+              <b>Contact:</b>
+
+                {{dataset.contact}} ({{ dataset.contact.email }})
+
+            </p>
+          </fieldset>
+          <br>
+          <p>
+            </p><h2>Data Download</h2>
+          <p></p>
+          <fieldset class="graybox">
+            <p>
+              <b>Version:</b>
+              
+              {{dataset.version}}
+              
+            </p>
+            <p>
+              <b>Dataset Citation:</b>
+                {{ authors }}. {{ dataset.name }}. NGEE Tropics Data Collection.
+               {% if not dataset.doi == None %}
+                Accessed at: <a href="{{ dataset.doi }}">{{ dataset.doi }}</a>
+                {% endif %}<br/>
+
+            <b>Data Links:</b> <a href="/download/{{ dataset.data_set_id }}">Download Dataset</a><p></p>
+            <p></p>
+            <p>
+              <b>Acknowledgement:</b>
+
+                {{dataset.acknowledgement}}
+              
+
+            </p>
+          </fieldset>
+          <br>
+          <p>
+            </p><h2>Reference:</h2>
+          <p></p>
+          <fieldset class="graybox">
+            <p>
+              
+              {{ authors_initial }}. {{ dataset.name }}. NGEE Tropics Data Collection.
+                {% if not dataset.doi == None %}
+                Accessed at: <a href="{{ dataset.doi }}">{{ dataset.doi }}</a>
+                {% endif %}
+            </p>
+          </fieldset>
+          <br>
+          <br>
+        </div>
+      </div>
+    </div>
+  
+<div id="feedly-mini" title="feedly Mini tookit"></div></body></html>
