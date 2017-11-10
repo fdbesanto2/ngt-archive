@@ -20,11 +20,9 @@ def doi(request, ngt_id):
     dataset = get_object_or_404(DataSet, ngt_id=int(ngt_id[3:]))
 
     if (dataset.status == DataSet.STATUS_APPROVED and \
-                    dataset.access_level == DataSet.ACCESS_PUBLIC):
-        author_list = ["{} {}".format(o.last_name, o.first_name) for o in dataset.authors.all()]
-        authors = ", ".join(author_list)
+                    dataset.access_level in [DataSet.ACCESS_PUBLIC, DataSet.ACCESS_NGEET]):
         author_list = ["{} {}".format(o.last_name, o.first_name[0]) for o in dataset.authors.all()]
-        authors_initial = ", ".join(author_list)
+        authors = "; ".join(author_list)
 
         site_id_list = [o.site_id for o in dataset.sites.all()]
         site_ids = "; ".join(site_id_list)
@@ -40,8 +38,7 @@ def doi(request, ngt_id):
                                                        'authors': authors,
                                                        'site_ids': site_ids,
                                                        'sites': sites,
-                                                       'variables': variables,
-                                                       'authors_initial': authors_initial})
+                                                       'variables': variables})
     else:
         raise Http404('That dataset does not exist')
 
