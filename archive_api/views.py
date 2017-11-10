@@ -46,7 +46,7 @@ def doi(request, ngt_id):
         raise Http404('That dataset does not exist')
 
 
-@login_required
+@login_required(login_url="/login")
 def download(request, ngt_id):
     """
     Download the dataset
@@ -57,4 +57,5 @@ def download(request, ngt_id):
     """
 
     dataset = get_object_or_404(DataSet, ngt_id=int(ngt_id[3:]))
-    return HttpResponseRedirect("/api/v1/datasets/{}/archive".format(dataset.id))
+    return HttpResponseRedirect("/api/v1/datasets/{}/archive".format(dataset.id),)
+

@@ -70,11 +70,23 @@ class DataSetClientTestCase(APITestCase):
                          3)
         self.assertEqual(status.HTTP_200_OK, response.status_code)
 
-        self.login_user("lukecage") #cdiac import
+        self.login_user("lukecage")
+        response = self.client.get('/api/v1/datasets/')
+        self.assertEqual(status.HTTP_403_FORBIDDEN, response.status_code)
+        self.assertEqual(len(json.loads(response.content.decode('utf-8'))),
+                         1)
+
+        self.login_user("arrow")
+        response = self.client.get('/api/v1/datasets/')
+        self.assertEqual(status.HTTP_403_FORBIDDEN, response.status_code)
+        self.assertEqual(len(json.loads(response.content.decode('utf-8'))),
+                         1)
+
+        self.login_user("admin")
         response = self.client.get('/api/v1/datasets/')
         self.assertEqual(status.HTTP_200_OK, response.status_code)
         self.assertEqual(len(json.loads(response.content.decode('utf-8'))),
-                         1)
+                         4)
 
     def test_options(self):
         self.login_user("auser")
