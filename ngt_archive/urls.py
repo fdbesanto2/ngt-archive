@@ -17,7 +17,8 @@ from django.conf.urls import url, include
 from django.contrib import admin
 from archive_api import urls as api_urls
 from ui import urls as ui_urls
-
+from archive_api.views import doi, download
+from django.contrib.auth import views as auth_views
 
 admin.site.site_header = 'NGEE Tropics Admin Site'
 admin.site.site_title = 'NGEET Administration'
@@ -28,4 +29,8 @@ urlpatterns = [
     url(r'^', include(ui_urls)),   
     url(r'^api/', include(api_urls)),
     url(r'^admin/', admin.site.urls),
+    url(r'^dois/(?P<ngt_id>[a-zA-Z0-9]+)/$', doi, name='doi'),
+    url(r'^download/(?P<ngt_id>[a-zA-Z0-9]+)', download, name='download'),
+    url(r'^login/$', auth_views.login, {'template_name': 'archive_api/login.html'}, name='login'),
+    url(r'^logout/$', auth_views.logout, name='logout'),
 ]

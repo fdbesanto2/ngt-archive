@@ -1,0 +1,186 @@
+{% extends "archive_api/doi-base.html" %}
+
+
+{% block script %}
+    toggle_link();
+
+    function toggle_link() {
+
+    if (document.getElementById('data-policy').checked == true) {
+    enable_link();
+    }
+    else {
+    disable_link();
+    }
+    }
+
+    function disable_link() {
+
+    document.getElementById('download-link').disabled = true;
+
+    link = document.getElementById('download-link').href;
+
+    document.getElementById('download-link').removeAttribute('href');
+    ocument.getElementById('download-link').style.color = "grey";
+
+    }
+
+
+    function enable_link() {
+
+    document.getElementById('download-link').setAttribute("href", "/download/{{ dataset.data_set_id }}");
+
+    }
+
+{% endblock %}
+
+{% block title %}{{ dataset.name }}{% endblock %}
+{% block content %}
+    <fieldset class="graybox">
+        <p>
+            <b>Author(s):</b>
+            {{ authors }}
+        </p>
+    </fieldset>
+    <br>
+    <p>
+    </p>
+    <h2>Dataset Information</h2>
+    <p></p>
+    <fieldset class="graybox">
+        <p>
+            <b>Site ID:</b>
+            {{ site_ids }}
+
+        </p>
+        <p>
+            <b>Site Name:</b>
+
+
+            {{ sites }}
+
+        </p>
+
+        <p>
+            <b>Variables:</b>
+            {{ variables }}
+        </p>
+        <p>
+            <b>Date Range:</b>
+
+            {{ dataset.start_date }}
+
+            -
+
+            {{ dataset.end_date }}
+
+        </p>
+        <p>
+            <b>Description:</b>
+
+            {{ dataset.description }}
+
+        </p>
+        <p>
+            <b>QA/QC:</b>
+
+            {{ dataset.get_qaqc_status_display }}
+
+        </p>
+        <p>
+            <b>QA/QC Method:</b>
+
+            {{ dataset.qaqc_method_description }}
+
+        </p>
+        <p></p>
+        <p>
+            <b>Access Level:</b>
+
+            {{ dataset.get_access_level_display }}
+
+        </p>
+        <p>
+            <b>Originating Institution(s):</b>
+
+            {{ dataset.originating_institution }}
+
+        </p>
+        <p>
+            <b>Sponsor Organization(s):</b>
+
+            {{ dataset.funding_organizations }}
+
+        </p>
+        <p>
+            <b>Contact:</b>
+
+            {{ dataset.contact }} ({{ dataset.contact.email }})
+
+        </p>
+    </fieldset>
+    <br>
+    <p>
+    </p>
+    <h2>Data Download</h2>
+    <p></p>
+    <fieldset class="graybox">
+        <p>
+            <b>Version:</b>
+
+            {{ dataset.version }}
+
+        </p>
+        <p>
+            <b>Dataset Citation:</b>
+            {% if not dataset.doi == None %}
+                {{ authors }}. {{ dataset.name }}. NGEE Tropics Data Collection.
+                Accessed at: <a href="{{ dataset.doi }}">{{ dataset.doi }}</a>
+
+            {% else %}
+                Citation information not available currently. Contact dataset author(s) for citation or
+                acknowledgement text.
+            {% endif %}
+        </p>
+        <p>
+            <b>Acknowledgement:</b>
+
+            {{ dataset.acknowledgement }}
+
+
+        </p>
+
+        <p>
+            <b>Data Link:</b> <a id="download-link">Download Dataset</a>
+        <p></p>
+        <input type="checkbox" name="data-policy" id="data-policy" onclick="toggle_link();" value="true">
+        <label for="data-policy">I have read and agree to the terms of the</label>
+        <a href="https://drive.google.com/file/d/0B5RSGI83Og11cVlGbWcxeW5LQjg/view" target="_blank">NGEE
+            Tropics data policy</a>.
+        <p></p>
+
+
+    </fieldset>
+    <br>
+    <p>
+    </p>
+    <h2>Reference:</h2>
+    <p></p>
+    <fieldset class="graybox">
+        <p>
+
+
+            {% if not dataset.doi == None %}
+                {{ authors_initial }}. {{ dataset.name }}. NGEE Tropics Data Collection.
+                Accessed at: <a href="{{ dataset.doi }}">{{ dataset.doi }}</a>
+
+            {% else %}
+                Citation information not available currently. Contact dataset author(s) for citation or
+                acknowledgement text.
+            {% endif %}
+        </p>
+    </fieldset>
+    <br>
+    <br>
+    </div>
+{% endblock %}

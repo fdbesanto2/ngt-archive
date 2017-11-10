@@ -9,6 +9,7 @@ from django.dispatch import Signal
 import archive_api
 from archive_api import permissions
 from archive_api.models import DataSet, Person
+from django.contrib.auth.models import update_last_login
 
 # Signal for Dataset Status changes
 dataset_status_change = Signal(providing_args=['request', 'user', 'instance', 'original_status'])
@@ -38,6 +39,8 @@ def notify_admin_to_activate_user(sender, user, **kwargs):
     from archive_api.models import NGTUser
     ngt_user = NGTUser.objects.get(id = user.id)
 
+    # Has the user been activated to access the NGEE Tropics
+    # Data Collection?
     if not ngt_user.is_activated and not user.is_superuser:
         # check existing list
         # if not in any of these groups send email to admins
@@ -45,9 +48,10 @@ def notify_admin_to_activate_user(sender, user, **kwargs):
         person = None
         try:
             try:
-                person= Person.objects.get(user = user)
+                person = Person.objects.get(user = user)
             except Person.DoesNotExist:
-                person = Person.objects.get(email=user.email, user_role__lt=2)  # Person is a collaborator or team
+                if user.email:
+                    person = Person.objects.get(email=user.email, user_role__lt=2)  # Person is a collaborator or team
         except Person.DoesNotExist:
             pass # Do nothing
 
@@ -60,14 +64,13 @@ def notify_admin_to_activate_user(sender, user, **kwargs):
                 if len(user.groups.all()) == 0:
                     g = Group.objects.get(name='NGT {}'.format(person.get_user_role_display()))
                     g.user_set.add(user)
-                user.is_active = True
-                user.save()
 
                 # Assign the current user to the Person found
                 person.user = user
                 person.save()
 
-        else:
+        elif not user.last_login:
+            # Make sure the activation request is only sent once
             EmailMessage(
                 subject="{} user '{}' requesting activation".format(get_setting("EMAIL_SUBJECT_PREFIX"),user.username),
                 body="""Dear NGEE Tropics Admins,
@@ -78,8 +81,20 @@ User '{}' is requesting access to NGEE Tropics Archive service.
                 to=get_setting("EMAIL_NGEET_TEAM"),
                 reply_to=get_setting("EMAIL_NGEET_TEAM")).send()
 
+        # Any authenticated use should be set as active
+        # This will allow access to download public datasets
+        # Only set this the first time users login. This will
+        # allow problem users to be banned, if needed.
+        if not user.is_active and not user.last_login:
+            user.is_active = True
+            user.save()
+
+        # Now set the last_login time
+        update_last_login(sender, user, **kwargs)
+
 
 # This signal is sent after users log in with default django authentication
+user_logged_in.disconnect(update_last_login) # Disconnect the signal that updates last_login
 user_logged_in.connect(notify_admin_to_activate_user)
 
 # FROM https://pythonhosted.org/django-auth-ldap/reference.html#django_auth_ldap.backend.LDAPBackend.get_or_create_user

@@ -106,7 +106,8 @@ class NGTUser(django.contrib.auth.models.User):
 
     @property
     def is_activated(self):
-        active = (self.is_active and self.person is not None)
+        active = (self.is_active and self.person is not None \
+                  and len(self.groups.all()) > 0)
         return active or self.is_superuser
 
     @property

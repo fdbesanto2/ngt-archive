@@ -80,14 +80,14 @@
     "pk": 5,
     "fields": {
       "password": "pbkdf2_sha256$30000$y73YmPuQU58i$NV244xDjN8qCyv0GRstTitb8x8EsILvR6iy0N+HC90s=",
-      "last_login": "2016-10-21T23:05:33.634Z",
+      "last_login": null,
       "is_superuser": false,
       "username": "vibe",
       "first_name": "Cisco",
       "last_name": "Ramon",
       "email": "cisco@foobar.baz",
       "is_staff": false,
-      "is_active": false,
+      "is_active": true,
       "date_joined": "2016-10-21T23:04:56.178Z",
       "groups": [],
       "user_permissions": []
@@ -98,7 +98,7 @@
     "pk": 6,
     "fields": {
       "password": "pbkdf2_sha256$30000$y73YmPuQU58i$NV244xDjN8qCyv0GRstTitb8x8EsILvR6iy0N+HC90s=",
-      "last_login": "2016-10-21T23:05:33.634Z",
+      "last_login": null,
       "is_superuser": false,
       "username": "flash",
       "first_name": "Barry",
@@ -106,6 +106,24 @@
       "email": "ballen@foobar.baz",
       "is_staff": false,
       "is_active": false,
+      "date_joined": "2016-10-21T23:04:56.178Z",
+      "groups": [],
+      "user_permissions": []
+    }
+  },
+  {
+    "model": "auth.user",
+    "pk": 7,
+    "fields": {
+      "password": "pbkdf2_sha256$30000$y73YmPuQU58i$NV244xDjN8qCyv0GRstTitb8x8EsILvR6iy0N+HC90s=",
+      "last_login":  "2016-10-21T23:05:33.634Z",
+      "is_superuser": false,
+      "username": "arrow",
+      "first_name": "Oliver",
+      "last_name": "Queen",
+      "email": "arrow@foobar.baz",
+      "is_staff": false,
+      "is_active": true,
       "date_joined": "2016-10-21T23:04:56.178Z",
       "groups": [],
       "user_permissions": []

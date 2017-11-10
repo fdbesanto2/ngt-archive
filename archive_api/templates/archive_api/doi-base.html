@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html style="width:1050px text-align:center">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <style>pre {
+        display: block;
+        font-family: "Times New Roman", Times, serif;
+        white-space: pre;
+        margin: 1em 0;
+        width: 1050px;
+        word-wrap: break-word;
+    }
+
+     body {
+        font-family: "Helvetica Neue", Helvetica, Roboto, Arial, sans-serif;
+
+    }
+
+    .bod {
+        width: 1100px;
+        background: #F8F8F8;
+    }
+
+    .tab {
+        padding-left: 5em;
+    }
+
+    .graybox {
+        background: #eeeeee;
+    }
+
+    .container {
+        width: auto;
+    }
+
+    /* body {
+      background-image: url("http://ngee-tropics.ornl.gov/data-upload/images/TES_bg.png");
+        background-color: #E6E7EB;
+    } */
+    /* body {
+       background-image: url("http://ngee-tropics.ornl.gov/data-upload/images/TES_bg_full.png");
+       background-attachment: fixed;
+     }*/
+
+    .pagebox { /* standard page container */
+        clear: both;
+        margin: 0 auto 3rem auto;
+        width: 950px;
+        height: auto;
+        background-color: #FFFFFF;
+        box-shadow: 0px 0px 25px #555;
+        padding-bottom: 10px;
+    }
+
+    div.ma {
+        padding-left: 5px;
+        padding-right: 5px;
+    }
+
+    div.hbp {
+        padding-right: 50px;
+        position: relative;
+    }</style>
+</head>
+<script type="text/javascript">
+{% block script %}
+{% endblock %}
+</script>
+<body data-feedly-mini="yes">
+<div class="container">
+    <div class="pagebox">
+        <div class="hpb" style="float: right;">
+            <img width="1100" src="/static/img/tropics_logo.jpg">
+        </div>
+
+        <div align="right" class="hbp" >
+            {%  if  user.is_authenticated %}
+            <a href="{% url 'logout' %}?next={{ request.path }}">Logout {{ user }}</a>
+                {% else %}
+                <a href="{% url 'login' %}?next={{ request.path }}">Login to download</a>
+            {% endif %}
+        </div>
+        <div class="ma">
+            <h1 align="center">
+
+               {% block title %}NGEE Tropics Data Collection{% endblock %}
+
+            </h1>
+            {% block content %}{% endblock %}
+    </div>
+</div>
+
+<div id="feedly-mini" title="feedly Mini tookit"></div>
+</body>
+</html>
