@@ -20,7 +20,7 @@ def doi(request, ngt_id):
     dataset = get_object_or_404(DataSet, ngt_id=int(ngt_id[3:]))
 
     if (dataset.status == DataSet.STATUS_APPROVED and \
-                    dataset.access_level == DataSet.ACCESS_PUBLIC):
+                    dataset.access_level in [DataSet.ACCESS_PUBLIC, DataSet.ACCESS_NGEET]):
         author_list = ["{} {}".format(o.last_name, o.first_name) for o in dataset.authors.all()]
         authors = ", ".join(author_list)
         author_list = ["{} {}".format(o.last_name, o.first_name[0]) for o in dataset.authors.all()]

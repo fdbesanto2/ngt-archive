@@ -150,6 +150,8 @@
 
         </p>
 
+    {%  if dataset.access_level == dataset.ACCESS_PUBLIC %}
+
         <p>
             <b>Data Link:</b> <a id="download-link">Download Dataset</a>
         <p></p>
@@ -158,6 +160,12 @@
         <a href="https://drive.google.com/file/d/0B5RSGI83Og11cVlGbWcxeW5LQjg/view" target="_blank">NGEE
             Tropics data policy</a>.
         <p></p>
+    {% else %}
+
+        This dataset is only viewable for the NGEE Tropics Team. If you are a member of the NGEE Tropics team,
+        login to <a href="/">ngt-data.lbl.gov</a> to get access to the data.
+
+    {%  endif %}
 
 
     </fieldset>
