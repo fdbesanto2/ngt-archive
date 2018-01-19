@@ -60,7 +60,7 @@
         "label": "Dataset Author",
         "sequence": 7,
         "multiple": true,
-        "description": "<p>Dataset Authors needed for the purposes of a DOI. List the main researchers involved in producing the data, or the authors of the publication who should be listed in the citation for this data. Select authors from picklist. Hit the +Add button to add more authors. If the author is not listed, select  --Add Collaborator --  from the top of the picklist and add an author.</p>"
+        "description": "<p>Dataset Authors needed for the purposes of a DOI. <em><b>Add the authors in dataset citation order.</b></em> List the main researchers involved in producing the data, or the authors of the publication who should be listed in the citation for this data. Select authors from picklist. Hit the +Add button to add more authors. If the author is not listed, select  --Add Collaborator --  from the top of the picklist and add an author.</p>"
     },
     "originating_institution": {
         "type": "string",
@@ -229,7 +229,7 @@
         "label": "Additional Information about Dataset Access",
         "sequence": 22,
         "multiple": false,
-        "description": "<p>Provide comments, if necessary regarding data access. Indicate if there are any data usage constraints here.</p>"
+        "description": "<p>Provide comments, if necessary regarding data access. Indicate if there are any data usage constraints here. <b><em>Specify a publication date if you DO NOT wish this dataset to go public on March 31, 2019.</em></b></p>"
     },
     "doi": {
         "type": "string",
