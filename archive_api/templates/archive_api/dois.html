@@ -1,0 +1,59 @@
+{% extends "archive_api/doi-base.html" %}
+
+
+
+{% block title %}{{ dataset.name }}{% endblock %}
+{% block content %}
+        <link rel="stylesheet" href="/static/stylesheets/foundation.css">
+        <script type="text/javascript" src="/static/js/jquery-2.1.4.min.js"></script>
+        <script type="text/javascript" src="/static/js/jquery-ui.js"></script>
+        <link rel="stylesheet" type="text/css" href="/static/stylesheets/style.css">
+        <link rel="stylesheet" type="text/css" href="/static/js/jquery-ui/jquery-ui.css">
+        <link rel="stylesheet" type="text/css" href="/static/js/jquery-ui/jquery-ui.theme.css">
+        <link rel="stylesheet" type="text/css" href="/static/js/jquery-ui/jquery-ui.structure.css">
+    <div>
+        <table >
+            <thead>
+            <tr>
+                <th>
+                    Dataset ID
+                </th>
+                <th >Dataset
+                </th>
+                <th>Access<br/>Level</th>
+                <th >Publication <br/>Date</th>
+
+            </tr>
+            </thead>
+            <tbody>
+            {% for d in datasets %}
+                <tr>
+                <td><a href="{% url 'doi' d.data_set_id %}">{{ d.data_set_id }}</a></td>
+                <td>
+                    <h5 class="title">{{ d.name }}</h5></td>
+                    <td>{{ d.get_access_level_display }}</td>
+                <td>{{ d.submission_date | date:"Y" }}</td>
+            </tr>
+            {% endfor %}
+
+            </tbody>
+
+        </table>
+    </div>
+    <script>
+    $('th').click(function(){
+        var table = $(this).parents('table').eq(0)
+        var rows = table.find('tr:gt(0)').toArray().sort(comparer($(this).index()))
+        this.asc = !this.asc
+    if (!this.asc){rows = rows.reverse()}
+    for (var i = 0; i < rows.length; i++){table.append(rows[i])}
+    });
+    function comparer(index) {
+        return function(a, b) {
+            var valA = getCellValue(a, index), valB = getCellValue(b, index)
+            return $.isNumeric(valA) && $.isNumeric(valB) ? valA - valB : valA.localeCompare(valB)
+        }
+    }
+    function getCellValue(row, index){ return $(row).children('td').eq(index).text() }
+</script>
+{% endblock %}
