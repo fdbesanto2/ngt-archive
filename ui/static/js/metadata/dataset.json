@@ -229,7 +229,7 @@
         "label": "Additional Information about Dataset Access",
         "sequence": 22,
         "multiple": false,
-        "description": "<p>Provide comments, if necessary regarding data access. Indicate if there are any data usage constraints here.</p>"
+        "description": "<p>Provide comments, if necessary regarding data access. Indicate if there are any data usage constraints here. <b><em>Specify a publication date if you DO NOT wish this dataset to go public on March 31, 2019.</em></b></p>"
     },
     "doi": {
         "type": "string",
