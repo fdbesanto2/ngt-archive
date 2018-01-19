@@ -134,7 +134,7 @@
         <p>
             <b>Dataset Citation:</b>
             {% if not dataset.doi == None %}
-                 {{ authors }} ({{ dataset.modified_date | date:"Y"}}): {{ dataset.name }}. {{ dataset.version }}.
+                 {{ authors }} ({{ dataset.submission_date | date:"Y"}}): {{ dataset.name }}. {{ dataset.version }}.
                 NGEE Tropics Data Collection. (dataset). <a href="{{ dataset.doi }}">{{ dataset.doi }}</a>
 
             {% else %}
@@ -180,7 +180,7 @@
 
             {% if not dataset.doi == None %}
 
-                {{ authors }} ({{ dataset.modified_date | date:"Y"}}): {{ dataset.name }}. {{ dataset.version }}.
+                {{ authors }} ({{ dataset.submission_date | date:"Y"}}): {{ dataset.name }}. {{ dataset.version }}.
                 NGEE Tropics Data Collection. (dataset). <a href="{{ dataset.doi }}">{{ dataset.doi }}</a>
 
             {% else %}

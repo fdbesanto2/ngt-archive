@@ -1311,8 +1311,10 @@ $(document).ready(function(){
                 }
                 if(citation.length >= 2) {
                     citation = citation.substring(0, citation.length - 2);
-                    citation += '. ';
+
                 }
+                citation += '(' +datasetObj['submission_date'].substring(0,4)+'). ';
+
                 citation += datasetObj['name'] + '. ' + 'NGEE Tropics Data Collection. Accessed at <a href="' + datasetObj['doi'] + '">' + datasetObj['doi'] + '</a>.';
                 if(! datasetObj['doi']) {
                     citation = 'Citation information not available currently. Contact dataset author(s) for citation or acknowledgement text.';
