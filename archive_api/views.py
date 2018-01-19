@@ -3,14 +3,28 @@ from django.contrib.auth.decorators import login_required
 from django.http import (
     Http404, HttpResponseRedirect,
 )
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, get_object_or_404, get_list_or_404
 
 # Create your views here.
 
 from archive_api.models import DataSet
 
 
-def doi(request, ngt_id):
+def dois(request):
+    """
+    List all public doi pages
+    :param request:
+    :return:
+    """
+
+    data_sets = get_list_or_404(DataSet, status=DataSet.STATUS_APPROVED,
+                                         access_level__in=(DataSet.ACCESS_NGEET, DataSet.ACCESS_PUBLIC))
+
+    return render(request, 'archive_api/dois.html', context={'user': request.user,
+                                                            'datasets': data_sets})
+
+
+def doi(request, ngt_id=None):
     """
     Public doi pages
     :param request:
