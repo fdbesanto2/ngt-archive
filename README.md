@@ -231,7 +231,8 @@ Workflow for tagging and building release:
 
 * **Charuleka Varadharajan** - [LBL](http://eesa.lbl.gov/profiles/charuleka-varadharajan/)
 * **Valerie Hendrix**  - [LBL](https://dst.lbl.gov/people.php?p=ValHendrix)
-* **Megha Sandesh**  - [LBL](https://dst.lbl.gov/people.php?p=MeghaSandesh)
+* **Megha Sandesh**  - [LBL]
+* **Deb Agarwal**  - [LBL](https://dst.lbl.gov/people.php?p=DebAgarwal)
 
 See also the list of [contributors](https://github.com/NGEET/ngt-archive/contributors) who participated in this project.
 
