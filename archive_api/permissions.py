@@ -118,6 +118,26 @@ class HasUploadPermission(permissions.BasePermission):
         return False
 
 
+class HasPublicationDatePermission(permissions.BasePermission):
+    """ Object-level permission to only allow admins and owners to set a publication date"""
+    def has_object_permission(self, request, view, obj):
+        path_info = request.path_info
+        if "/publication_date" not in path_info:
+            return False
+
+        has_permission  = (obj.created_by == request.user and request.user.has_perm('archive_api.edit_own_draft_dataset')) \
+                   or request.user.has_perm('archive_api.edit_all_draft_dataset')
+
+        # Only submitted and approved dataset may have the publication date set
+        if obj.status in [SUBMITTED, APPROVED]:
+            return has_permission
+        elif has_permission and obj.status == DRAFT:
+            raise PermissionDenied(detail='Only a dataset in SUBMITTED or APPROVED status'
+                                          ' may have a publication date set.')
+
+        return False
+
+
 class HasEditPermissionOrReadonly(permissions.BasePermission):
     """
        Object-level permission to only allow owners of an object  or administrators to edit it.

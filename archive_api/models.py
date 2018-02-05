@@ -237,6 +237,7 @@ class DataSet(models.Model):
     access_level = models.IntegerField(choices=ACCESS_CHOICES, default=0)
     additional_access_information = models.TextField(blank=True, null=True)
     submission_date = models.DateField(blank=True, null=True)
+    publication_date = models.DateField(blank=True, null=True)
 
     # Owner is the person who created the dataset
     created_by = models.ForeignKey(settings.AUTH_USER_MODEL, editable=False, related_name='+')

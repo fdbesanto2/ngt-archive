@@ -67,6 +67,7 @@ class DataSetSerializer(serializers.HyperlinkedModelSerializer):
     modified_by = serializers.ReadOnlyField(source='modified_by.username')
     archive_filename = serializers.SerializerMethodField()
     submission_date = serializers.ReadOnlyField()
+    publication_date = serializers.ReadOnlyField()
     authors = AuthorsField()
     archive = serializers.SerializerMethodField()
     status = StringToIntReadOnlyField()
@@ -125,11 +126,11 @@ class DataSetSerializer(serializers.HyperlinkedModelSerializer):
                   'submission_date', 'contact', 'sites', 'authors', 'plots', 'variables', 'archive',
                   'archive_filename',
                   'created_by', 'created_date', 'modified_by', 'modified_date'
-                  , 'cdiac_import', 'cdiac_submission_contact')
+                  , 'cdiac_import', 'cdiac_submission_contact','publication_date')
         read_only_fields = ('cdiac_import', 'cdiac_submission_contact',
             'url', 'version', 'created_by', 'created_date', 'modified_by', 'modified_date', 'status', 'archive',
             'archive_filename',
-            'submission_date', 'data_set_id')
+            'submission_date', 'data_set_id','publication_date')
 
     def validate(self, data):
         """
