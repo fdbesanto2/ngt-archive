@@ -4,6 +4,7 @@ import shutil
 from collections import OrderedDict
 
 import os
+from datetime import datetime
 from django.conf import settings
 from django.db import transaction
 from django.http import HttpResponse
@@ -23,7 +24,7 @@ from archive_api.models import DataSet, MeasurementVariable, Site, Person, Plot,
 from archive_api.permissions import HasArchivePermission, HasSubmitPermission, HasApprovePermission, \
     HasUnsubmitPermission, \
     HasUnapprovePermission, HasUploadPermission, HasEditPermissionOrReadonly, APPROVED, DRAFT, \
-    SUBMITTED, IsActivated
+    SUBMITTED, IsActivated, HasPublicationDatePermission
 from archive_api.serializers import DataSetSerializer, MeasurementVariableSerializer, \
     SiteSerializer, PersonSerializer, \
     PlotSerializer
@@ -213,6 +214,8 @@ class DataSetViewSet(ModelViewSet):
         return Response({'success': True, 'detail': 'DataSet has been unapproved.'},
                         status=http_status.HTTP_200_OK)
 
+
+
     @detail_route(methods=['post', 'get'],
                   permission_classes=(
                   HasEditPermissionOrReadonly, permissions.IsAuthenticated, HasSubmitPermission))
@@ -223,6 +226,39 @@ class DataSetViewSet(ModelViewSet):
         self.change_status(request, SUBMITTED)
         return Response({'success': True, 'detail': 'DataSet has been submitted.'},
                         status=http_status.HTTP_200_OK)
+
+    @detail_route(methods=['post', 'get'],
+                  permission_classes=(
+                          HasEditPermissionOrReadonly, permissions.IsAuthenticated, HasPublicationDatePermission))
+    def publication_date(self, request, pk=None):
+        """
+        Update the publication date.
+        """
+        dataset = self.get_object()  # this will initiate a permissions check
+
+        # Defaults to current date if no publication date set
+        if not dataset.publication_date:
+            dataset.publication_date = timezone.now()
+
+        if "date" in request.GET:
+            try:
+                dataset.publication_date = datetime.strptime(request.GET["date"], "%m/%d/%Y")
+
+            except Exception as e:
+
+                return Response({'success': False, 'detail': "Invalid format for Publication date. Must be %m/%d/%Y"},
+                            status=http_status.HTTP_400_BAD_REQUEST)
+
+        dataset.modified_by = request.user
+        serializer = DataSetSerializer(dataset, context={'request': request})
+        deserializer = DataSetSerializer(dataset, data=serializer.data,
+                                         context={'request': request})
+        deserializer.is_valid(raise_exception=True)
+        self.perform_update(deserializer)
+
+        return Response({'success': True, 'detail': 'Publication date has been set.'},
+                    status=http_status.HTTP_200_OK)
+
 
     def change_status(self, request, status):
         """

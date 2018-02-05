@@ -57,6 +57,18 @@ class DataSetClientTestCase(APITestCase):
     def setUp(self):
         self.client = Client()
 
+    def test_set_publication_date_denied(self):
+
+        self.login_user("frost")
+
+        #########################################################################
+        # User may NOT  publication date to now
+        response = self.client.get("/api/v1/datasets/2/publication_date/")
+        value = json.loads(response.content.decode('utf-8'))
+
+        self.assertEqual({'detail': 'Not found.'}, value)
+        self.assertEqual(status.HTTP_404_NOT_FOUND, response.status_code)
+
     def test_client_list(self):
 
         # Unauthorized user that is not in any groups
@@ -153,8 +165,10 @@ class DataSetClientTestCase(APITestCase):
                           'modified_by': 'auser', 'status': '1', 'ngee_tropics_resources': True, 'qaqc_status': None,
                           'end_date': None, 'additional_reference_information': '', 'name': 'Data Set 2',
                           'created_by': 'auser', 'sites': ['http://testserver/api/v1/sites/1/'],
-                          'originating_institution': None, 'version': '0.0',
-                          'url': 'http://testserver/api/v1/datasets/2/', 'access_level': '0'}
+                          'originating_institution': "LBNL", 'version': '0.0',
+                          'url': 'http://testserver/api/v1/datasets/2/', 'access_level': '0',
+                          'publication_date': None,
+                          }
 
                          )
         self.assertEqual(status.HTTP_200_OK, response.status_code)
@@ -206,6 +220,14 @@ select "Edit Drafts" and then click the "Edit" button for NGT0004:FooBarBaz.
         self.assertEqual(value['authors'], ["http://testserver/api/v1/people/2/"])
         self.assertEqual(value['url'], 'http://testserver/api/v1/datasets/5/')
         self.assertEqual(value['qaqc_method_description'], None)
+
+        #########################################################################
+        # User may NOT  publication date to now
+        response = self.client.get("/api/v1/datasets/5/publication_date/")
+        value = json.loads(response.content.decode('utf-8'))
+
+        self.assertEqual({'detail': 'Only a dataset in SUBMITTED or APPROVED status may have a publication date set.'}, value)
+        self.assertEqual(status.HTTP_403_FORBIDDEN, response.status_code)
 
         # The submit action should fail
         response = self.client.post('/api/v1/datasets/5/submit/')
@@ -335,7 +357,6 @@ select "Edit Drafts" and then click the "Edit" button for NGT0004:FooBarBaz.
         self.assertEqual(status.HTTP_403_FORBIDDEN, response.status_code)
         self.assertEqual({'detail': 'You do not have permission to perform this action.'}, value)
 
-
     def test_admin_approve_workflow(self):
         """
         Test Admin dataset workflow
@@ -432,7 +453,7 @@ select "Edit Drafts" and then click the "Edit" button for NGT0004:FooBarBaz.
         self.assertEqual(0, len(mail.outbox))  # no notification emails sent
 
         #########################################################################
-        # NGT Administrator my APPROVE a SUBMITTED dataset
+        # NGT Administrator may APPROVE a SUBMITTED dataset
         response = self.client.get("/api/v1/datasets/2/approve/")  # In submitted mode, owned by auser
         value = json.loads(response.content.decode('utf-8'))
         self.assertEqual(status.HTTP_200_OK, response.status_code)
@@ -449,6 +470,30 @@ select "View Approved Datasets" and then click the "Approve" button for NGT0001:
 """) > 0)
         self.assertEqual(email.to, ['myuser@foo.bar'])
         self.assertEqual(email.reply_to, settings.ARCHIVE_API['EMAIL_NGEET_TEAM'])
+
+        #########################################################################
+        # NGT Administrator may set publication date to now
+        response = self.client.get("/api/v1/datasets/2/publication_date/")
+        value = json.loads(response.content.decode('utf-8'))
+        self.assertEqual(status.HTTP_200_OK, response.status_code)
+        self.assertEqual({'detail': 'Publication date has been set.', 'success': True}, value)
+
+        # Validate that a publication date was set
+        response = self.client.get("/api/v1/datasets/2/")
+        assert response.json()["publication_date"] is not None
+
+        #########################################################################
+        # NGT Administrator may set publication date to a specific date
+        response = self.client.get("/api/v1/datasets/2/publication_date/?date=1/2/2018")
+        value = json.loads(response.content.decode('utf-8'))
+        self.assertEqual(status.HTTP_200_OK, response.status_code)
+        self.assertEqual({'detail': 'Publication date has been set.', 'success': True}, value)
+
+        # Validate that a publication date was set
+        response = self.client.get("/api/v1/datasets/2/")
+        pub_date = response.json()["publication_date"]
+        assert pub_date is not None
+        assert pub_date == "2018-01-02"
 
         #########################################################################
         # APPROVED status: Cannot be deleted by anyone
