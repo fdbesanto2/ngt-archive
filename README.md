@@ -35,7 +35,7 @@ NGEE Tropics Archive is a Django application which requires:
 * Django (> 1.8)
 * Platform (Mac, Linux)
 
-###Setup Development
+### Setup Development
 There is an option for  local machine 
 development and virtual machine development using vagrant.
 
