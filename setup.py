@@ -43,7 +43,7 @@ setup(name='ngt_archive',
       include_package_data=True,
       install_requires=[
             "django >= 1.8, < 2.0",
-            "djangorestframework == 3.4.3",
+            "djangorestframework == 3.9.1",
             "django-filter ==  0.13.0",
             "django-daterange-filter == 1.3.0",
             "pyldap",
